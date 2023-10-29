@@ -1,0 +1,78 @@
+import conocimientos.*
+import cumbre.*
+
+describe"Testeando requerimientos"{
+	const argentina = new Pais()
+	const brasil = new Pais()
+	const colombia = new Pais()
+	const coreaDelSur = new Pais()
+	const coreaDelNorte = new Pais()
+	const juana = new Programadores(pais= argentina, cantidadCommits=600, conocimientos = [css, html])
+	const lucia = new Programadores(pais= brasil, cantidadCommits=800, conocimientos=[programacionBasica, basesDeDatos])
+	const mariana = new Especialistas(pais=argentina, cantidadCommits=200, conocimientos=[programacionBasica, instalacionLinux, objetos, disenioConObjetos])
+	const susana = new Especialistas(pais= colombia, cantidadCommits=1500, conocimientos=[programacionBasica,objetos ])
+	
+	method initialiaze(){
+		cumbre.agregarAuspiciantes(argentina)
+		cumbre.agregarAuspiciantes(colombia)
+		cumbre.agregarAuspiciantes(coreaDelNorte)
+	}
+
+	test "probamos que juana puede entrar"{
+		assert.notThat(juana.puedeIngresar(cumbre))
+	}
+	test "probamos que lucia puede entrar"{
+		assert.that(lucia.puedeIngresar(cumbre))
+	}
+	test "probamos que mariana puede entrar"{
+		assert.that(mariana.puedeIngresar(cumbre))
+	}
+	test "probamos que susana puede entrar"{
+		assert.that(susana.puedeIngresar(cumbre))
+	}
+	test "la cumbre permite ingresar a Juana"{
+		assert.notThat(cumbre.restrigeElAcceso(juana))
+	}
+	test "la cumbre permite ingresar a Lucia"{
+		assert.notThat(cumbre.restrigeElAcceso(lucia))
+	}
+	test "la cumbre permite ingresar a Mariana"{
+		assert.notThat(cumbre.restrigeElAcceso(mariana))
+	}
+	test "la cumbre permite ingresar a Susana"{
+		assert.notThat(cumbre.restrigeElAcceso(susana))
+	}
+	test "la cumbre deja entrar a Juana"{
+		assert.notThat(cumbre.puedeEntrar(juana))
+	}
+	test "la cumbre deja entrar a Mariana"{
+		assert.that(cumbre.puedeEntrar(mariana))
+	}
+	test "la cumbre deja entrar a Lucia"{
+		assert.that(cumbre.puedeEntrar(lucia))
+	}
+	test "la cumbre deja entrar a Susana"{
+		assert.that(cumbre.puedeEntrar(susana))
+	}
+	test "Ingresar a mariana"{
+		cumbre.agregarParticipanteSiPuede(mariana)
+		assert.equals(cumbre.participantes(), [mariana])
+	}
+	test "Ingresar a lucia"{
+		cumbre.agregarParticipanteSiPuede(lucia)
+		assert.equals(cumbre.participantes(), [lucia])
+	}
+	test "Ingresar a susana"{
+		cumbre.agregarParticipanteSiPuede(susana)
+		assert.equals(cumbre.participantes(), [susana])
+	}
+	test"la cumbre solo es segura si entran susana y lucia"{
+		cumbre.agregarParticipanteSiPuede(susana)
+		cumbre.agregarParticipanteSiPuede(lucia)
+		cumbre.agregarParticipanteSiPuede(mariana)
+		assert.that(cumbre.esSegura())
+		//no deja ingresar a juana no sabe programacion basica 
+		// no se porque no me deja ingresar a mariana
+	}
+	
+}

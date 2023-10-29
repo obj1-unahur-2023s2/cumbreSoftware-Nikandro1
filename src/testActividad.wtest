@@ -1,0 +1,61 @@
+import cumbre.*
+import conocimientos.*
+
+describe "Probamos actividades"{
+	const argentina = new Pais()
+	const brasil = new Pais()
+	const colombia = new Pais()
+	const coreaDelSur = new Pais()
+	const coreaDelNorte = new Pais()
+	const juana = new Programadores(pais= argentina, cantidadCommits=600, conocimientos = [css, html])
+	const lucia = new Programadores(pais= brasil, cantidadCommits=800, conocimientos=[programacionBasica, basesDeDatos])
+	const mariana = new Especialistas(pais=argentina, cantidadCommits=200, conocimientos=[programacionBasica, instalacionLinux, objetos, disenioConObjetos])
+	const susana = new Especialistas(pais= colombia, cantidadCommits=1500, conocimientos=[programacionBasica,objetos ])
+	
+	method initialiaze(){
+		cumbre.agregarAuspiciantes(argentina)
+		cumbre.agregarAuspiciantes(colombia)
+		cumbre.agregarAuspiciantes(coreaDelNorte)
+		cumbre.agregarParticipante(lucia)
+	}
+	
+	test "probamos que objetos se agrego a la lista de conocimientos de lucia"{
+	 	cumbre.realizarActividad(lucia, objetos, 2)
+		assert.equals(lucia.conocimientos(), [objetos, programacionBasica, basesDeDatos])
+	}
+	// me da una lista de 3 pero me dice que no  
+ 	test "probamos que la hora de capacitacion es 2"{
+		cumbre.realizarActividad(lucia, objetos, 2)
+		assert.equals(2, lucia.horaCapacitacion())
+	}
+	test "probramos que ahora tiene 24 commits mas"{
+		cumbre.realizarActividad(lucia, objetos, 2)
+		assert.equals(824, lucia.cantidadCommits())
+	}
+	test "la cantidad de horas de la cumbre es de 2"{
+		cumbre.realizarActividad(lucia, objetos, 2)
+		assert.equals(2, cumbre.cantidadDeHorasDeActividades())
+	}
+}
+
+
+
+describe "Testeamos gerente y empresa"{
+	const argentina = new Pais()
+	const brasil = new Pais()
+	const colombia = new Pais()
+	const coreaDelSur = new Pais()
+	const coreaDelNorte = new Pais()
+	const claro = new Empresa(paises=[argentina, brasil, colombia, coreaDelSur])
+	const gerente1 = new Gerentes(pais= argentina, cantidadCommits=600, conocimientos = [css, html,manejoDeGrupos], empresa=claro)
+	
+	test"El gerenta es cape"{
+		assert.that(gerente1.esCape())
+	}
+	test "la empresa es multinacional"{
+		assert.that(claro.esMultinacional())
+	}
+	test "el gerente no puede ingresar porque no contiene programacion basica"{
+		assert.notThat(gerente1.puedeIngresar(cumbre))
+	}
+}
